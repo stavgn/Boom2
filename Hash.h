@@ -18,7 +18,7 @@ namespace DS
     public:
         Hash();
         ~Hash();
-        bool insert(int key, ListNode<Course> *data);
+        bool insert(int key, ListNode<Course>& data);
         bool remove(int key);
         Course &operator[](int index);
         // bool shouldResize() override;
