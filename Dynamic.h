@@ -58,7 +58,7 @@ namespace DS
     template <class DATA>
     bool Dynamic<DATA>::shouldResize()
     {
-        return ((count > size/2) || (count < size/4));
+        return ((count > size/2) || ((count < size/4) && (size > 4)));
     }
 
     template <class DATA>

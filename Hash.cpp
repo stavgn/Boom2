@@ -47,7 +47,6 @@ bool Hash::remove(int key)
     {
         return true;
     }
-        ListNode<Course> &list = *(array[key % size].right);
         for (ListNode<Course> *iter = &array[key % size]; iter != nullptr; iter = iter->right)
         {
             if ((iter->right != nullptr) && (iter->right->key == key))
@@ -73,17 +72,15 @@ Course& Hash::operator[](int index)
     {
         throw Exception("Index out of range", INVALID_INPUT);
     }
-     if (array[key % size].right == nullptr)
-    {
-        throw Exception("Course was not found", FAILURE);
-    }
+    
 
-        ListNode<Course> &list = *(array[key % size].right);
-        for (ListNode<Course> *iter = &list; iter != nullptr; iter = iter->right)
+        for (ListNode<Course> *iter = array[index % size].right; iter != nullptr; iter = iter->right)
         {
-            if (iter->key == key)
+            if (iter->key == index)
             {
                 return *(iter->data);
             }
         }
+        // course was'nt found
+        throw Exception("Course was not found", FAILURE);
 }
