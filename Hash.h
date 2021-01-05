@@ -12,15 +12,16 @@ namespace DS
     {
 
     private:
-        shrink();
-        enlarge();
+        void shrink();
+        void enlarge();
+        void change_size(double factor);
 
     public:
         Hash();
         ~Hash();
-        bool insert(int key, ListNode<Course> *data) override;
-        bool remove(int key) override;
-        bool shouldResize() override;
+        void insert(int key, ListNode<Course>& data);
+        void remove(int key);
+        Course &operator[](int index);
     };
 
 } // namespace DS

@@ -2,14 +2,14 @@
 #define COURSE_H
 
 #include "./Exception.h"
-#include "./Dynamic.h";
+#include "./Dynamic.h"
  
 namespace DS
 {
     class Course
     {
         
-    Dynamic classes;
+    Dynamic<int> classes;
 
     public:
         int id;
