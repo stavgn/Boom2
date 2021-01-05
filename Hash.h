@@ -14,14 +14,14 @@ namespace DS
     private:
         void shrink();
         void enlarge();
+        void change_size(double factor);
 
     public:
         Hash();
         ~Hash();
-        bool insert(int key, ListNode<Course>& data);
-        bool remove(int key);
+        void insert(int key, ListNode<Course>& data);
+        void remove(int key);
         Course &operator[](int index);
-        // bool shouldResize() override;
     };
 
 } // namespace DS
