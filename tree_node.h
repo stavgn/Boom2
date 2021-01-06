@@ -16,6 +16,7 @@ namespace DS
         tree_node<KEY, DATA> *children_array[4]; //in case of node
         DATA *data_ptr;                          //in case of leaf
         int length;
+        int rank;
         tree_node<KEY, DATA> *left_ptr;  //in case of leaf
         tree_node<KEY, DATA> *right_ptr; //in case of leaf
 
@@ -23,6 +24,7 @@ namespace DS
         ~tree_node();
         int insert(tree_node<KEY, DATA> *node); //returns the place in the node of the new node
         tree_node<KEY, DATA> *remove(const KEY &removen_key);
+        int calculte_rank();
     };
 
     template <class KEY, class DATA>
@@ -37,6 +39,7 @@ namespace DS
         index_array[1] = KEY();
         index_array[2] = KEY();
         length = (1);
+        rank = (1);
     }
     template <class KEY, class DATA>
     tree_node<KEY, DATA>::~tree_node()
@@ -80,6 +83,7 @@ namespace DS
         }
 
         length += 1;
+        rank += node->rank;
         assert(length <= 4);
 
         return place_in_node;
@@ -112,8 +116,26 @@ namespace DS
 
         children_array[length - 1] = nullptr;
         length -= 1;
+        rank -= removen_node->rank;
+        assert(rank > 0);
 
-          return removen_node;
+        return removen_node;
+    }
+
+    template <class KEY, class DATA>
+    int tree_node<KEY, DATA>::calculte_rank()
+    {
+        if (children_array[0] == nullptr)
+        { //case is a leaf
+            rank = 1;
+            return 1;
+        }
+
+        for (int i = 0, rank = 0; i < length; i++)
+        {
+            rank += children_array[i]->rank;
+        }
+        return rank;
     }
 
 } // namespace DS

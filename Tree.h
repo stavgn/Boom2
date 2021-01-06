@@ -25,12 +25,14 @@ namespace DS
         Tree();
         ~Tree();
         bool insert(const KEY &key, DATA *data); // inserts a node with data and key, return true if it was sucessfull or false if a node with the same key is alredy exists
-        void remove(const KEY &key); // remove the node with the same key or do nothing incase the node wasn't found
-        DATA *find(const KEY &key); //find the node with that key and returns pointer to it's data
-        tree_node<KEY, DATA> *get_max_leaf(); //return's a pointer to the bigest leaf
-        tree_node<KEY, DATA> *get_min_leaf(); //return's a pointer to the smallest leaf
-        void printTree(); // FOR DEBUGING: prints the leafs from the bigest to the smallest 
-        void treeClear(); // FOR DEBUGING: delte all the node in the tree
+        void remove(const KEY &key);             // remove the node with the same key or do nothing incase the node wasn't found
+        DATA *find(const KEY &key);              //find the node with that key and returns pointer to it's data
+        tree_node<KEY, DATA> *get_max_leaf();    //return's a pointer to the bigest leaf
+        tree_node<KEY, DATA> *get_min_leaf();    //return's a pointer to the smallest leaf
+        tree_node<KEY, DATA> *select_rank(int rank, tree_node<KEY, DATA> *root = nullptr); //return's a pointer to the leaf in the i'th place from the end
+
+        void printTree();                        // FOR DEBUGING: prints the leafs from the bigest to the smallest
+        void treeClear();                        // FOR DEBUGING: delte all the node in the tree
     };
 
     template <class KEY, class DATA>
@@ -134,6 +136,8 @@ namespace DS
             new_father->children_array[0] = min_node;
             new_father->children_array[1] = max_node;
             new_father->length = 2;
+            new_father->calculte_rank();
+            assert(new_father->rank == 2);
             root_ptr = new_father;
             return true;
         }
@@ -201,14 +205,16 @@ namespace DS
                 new_splited_node->children_array[0] = child_node->children_array[2];
                 new_splited_node->children_array[1] = child_node->children_array[3];
                 new_splited_node->length = 2;
+                new_splited_node->calculte_rank();
 
                 child_node->children_array[2] = child_node->children_array[3] = nullptr;
                 child_node->length = 2;
+                child_node->calculte_rank();
 
                 int place_inserted = father_node->insert(new_splited_node);
                 father_node->index_array[place_inserted - 1] = child_node->index_array[1];
-                
             }
+            father_node->calculte_rank();
         }
         if (root_ptr->length == 4)
         {
@@ -216,14 +222,18 @@ namespace DS
             new_splited_node->children_array[0] = root_ptr->children_array[2];
             new_splited_node->children_array[1] = root_ptr->children_array[3];
             new_splited_node->length = 2;
+            new_splited_node->calculte_rank();
 
             root_ptr->children_array[2] = root_ptr->children_array[3] = nullptr;
             root_ptr->length = 2;
+            root_ptr->calculte_rank();
+
 
             tree_node<KEY, DATA> *new_root = new tree_node<KEY, DATA>(root_ptr->index_array[1]);
             new_root->children_array[0] = root_ptr;
             new_root->children_array[1] = new_splited_node;
             new_root->length = 2;
+            new_root->calculte_rank();
             root_ptr = new_root;
 
             return true;
@@ -271,7 +281,7 @@ namespace DS
                 node->left_ptr->right_ptr = nullptr;
                 max_leaf = node->left_ptr;
             }
-        
+
             else
             {
                 node->left_ptr->right_ptr = node->right_ptr;
@@ -300,6 +310,7 @@ namespace DS
                     balnce_node(child_node, father_node->children_array[i - 1], father_node, i);
                 }
             }
+            father_node->calculte_rank();
         }
         if (root_ptr->length < 2)
         {
@@ -308,9 +319,9 @@ namespace DS
             tree_node<KEY, DATA> *child_node = root_ptr->children_array[0];
             delete root_ptr;
             root_ptr = child_node;
+            root_ptr->calculte_rank();
             return;
         }
-
     }
 
     template <class KEY, class DATA>
@@ -382,7 +393,6 @@ namespace DS
         }
         remove_node_by_ptr(node, root_ptr);
         assert((root_ptr == nullptr) || (is_leaf(root_ptr)) || (root_ptr->length >= 2));
-
     }
 
     template <class KEY, class DATA>
@@ -440,6 +450,41 @@ namespace DS
         root_ptr = max_leaf = min_leaf = nullptr;
     }
 
+    template <class KEY, class DATA>
+    tree_node<KEY, DATA>* Tree<KEY,DATA>::select_rank(int rank, tree_node<KEY, DATA> *root)
+    {
+        // notice: first place (rank = 1) is the max leaf
+        if (rank <= 0)
+        {
+            throw ("Illegal rank", INVALID_INPUT);
+        }
+        if (root = nullptr)
+        {
+            return select_rank(rank, root_ptr);
+        }
+        if(rank > root->rank)
+        {
+            throw ("There are less courses with views then rank", FAILURE);
+        }
+        if(is_leaf(root))
+        {
+           assert(root->rank == 1);
+           assert(rank == 1);
+           return root;
+            
+        }
+        for(int place_in_node = (root->length - 1); place_in_node >= 0; place_in_node--)
+        {
+            if (root->children_array[place_in_node]->rank <= rank)
+            {
+                assert(rank > 0);
+                return select_rank(rank,root->children_array[place_in_node]);
+            }
+            rank -= root->children_array[place_in_node]->rank;
+        }
+        assert(0); //should never get here
+    }
+  
 } // namespace DS
 
 #endif
