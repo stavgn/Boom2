@@ -131,7 +131,8 @@ namespace DS
             return 1;
         }
 
-        for (int i = 0, rank = 0; i < length; i++)
+        rank = 0;
+        for (int i = 0; i < length; i++)
         {
             rank += children_array[i]->rank;
         }

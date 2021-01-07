@@ -2,6 +2,7 @@
 #define TREE_H
 
 #include "tree_node.h"
+#include "Exception.h"
 #include <cassert>
 
 #include <iostream>
@@ -24,15 +25,15 @@ namespace DS
     public:
         Tree();
         ~Tree();
-        bool insert(const KEY &key, DATA *data); // inserts a node with data and key, return true if it was sucessfull or false if a node with the same key is alredy exists
-        void remove(const KEY &key);             // remove the node with the same key or do nothing incase the node wasn't found
-        DATA *find(const KEY &key);              //find the node with that key and returns pointer to it's data
-        tree_node<KEY, DATA> *get_max_leaf();    //return's a pointer to the bigest leaf
-        tree_node<KEY, DATA> *get_min_leaf();    //return's a pointer to the smallest leaf
+        bool insert(const KEY &key, DATA *data);                                           // inserts a node with data and key, return true if it was sucessfull or false if a node with the same key is alredy exists
+        void remove(const KEY &key);                                                       // remove the node with the same key or do nothing incase the node wasn't found
+        DATA *find(const KEY &key);                                                        //find the node with that key and returns pointer to it's data
+        tree_node<KEY, DATA> *get_max_leaf();                                              //return's a pointer to the bigest leaf
+        tree_node<KEY, DATA> *get_min_leaf();                                              //return's a pointer to the smallest leaf
         tree_node<KEY, DATA> *select_rank(int rank, tree_node<KEY, DATA> *root = nullptr); //return's a pointer to the leaf in the i'th place from the end
 
-        void printTree();                        // FOR DEBUGING: prints the leafs from the bigest to the smallest
-        void treeClear();                        // FOR DEBUGING: delte all the node in the tree
+        void printTree(); // FOR DEBUGING: prints the leafs from the bigest to the smallest
+        void treeClear(); // FOR DEBUGING: delte all the node in the tree
     };
 
     template <class KEY, class DATA>
@@ -228,7 +229,6 @@ namespace DS
             root_ptr->length = 2;
             root_ptr->calculte_rank();
 
-
             tree_node<KEY, DATA> *new_root = new tree_node<KEY, DATA>(root_ptr->index_array[1]);
             new_root->children_array[0] = root_ptr;
             new_root->children_array[1] = new_splited_node;
@@ -246,6 +246,7 @@ namespace DS
     {
         tree_node<KEY, DATA> *new_node = new tree_node<KEY, DATA>(key);
         new_node->data_ptr = data;
+        assert(new_node->rank == 1);
         if (!insert_node_by_ptr(new_node, root_ptr))
         {
             delete new_node;
@@ -428,13 +429,11 @@ namespace DS
     template <class KEY, class DATA>
     void Tree<KEY, DATA>::printTree()
     {
+        int i = 1;
         for (tree_node<KEY, DATA> *p = max_leaf; p != nullptr; p = p->left_ptr)
         {
             assert((find(p->key) != nullptr));
-            if (p->right_ptr != nullptr)
-            {
-                assert(*(p->data_ptr) < *(p->right_ptr->data_ptr));
-            }
+            assert(p == select_rank(i++));
             std::cout << *(p->data_ptr) << "   ";
         }
     }
@@ -451,40 +450,39 @@ namespace DS
     }
 
     template <class KEY, class DATA>
-    tree_node<KEY, DATA>* Tree<KEY,DATA>::select_rank(int rank, tree_node<KEY, DATA> *root)
+    tree_node<KEY, DATA> *Tree<KEY, DATA>::select_rank(int rank, tree_node<KEY, DATA> *root)
     {
         // notice: first place (rank = 1) is the max leaf
         if (rank <= 0)
         {
-            throw ("Illegal rank", INVALID_INPUT);
+            throw("Illegal rank", INVALID_INPUT);
         }
-        if (root = nullptr)
+        if (root == nullptr)
         {
             return select_rank(rank, root_ptr);
         }
-        if(rank > root->rank)
+        if (rank > root->rank)
         {
-            throw ("There are less courses with views then rank", FAILURE);
+            throw("There are less courses with views then rank", FAILURE);
         }
-        if(is_leaf(root))
+        if (is_leaf(root))
         {
-           assert(root->rank == 1);
-           assert(rank == 1);
-           return root;
-            
+            assert(root->rank == 1);
+            assert(rank == 1);
+            return root;
         }
-        for(int place_in_node = (root->length - 1); place_in_node >= 0; place_in_node--)
+        for (int place_in_node = (root->length - 1); place_in_node >= 0; place_in_node--)
         {
-            if (root->children_array[place_in_node]->rank <= rank)
+            if (root->children_array[place_in_node]->rank >= rank)
             {
                 assert(rank > 0);
-                return select_rank(rank,root->children_array[place_in_node]);
+                return select_rank(rank, root->children_array[place_in_node]);
             }
             rank -= root->children_array[place_in_node]->rank;
         }
         assert(0); //should never get here
     }
-  
+
 } // namespace DS
 
 #endif
