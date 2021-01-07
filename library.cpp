@@ -72,7 +72,7 @@ StatusType AddClass(void *DS, int courseID, int *classID)
         {
             return INVALID_INPUT;
         }
-        //return boom->WatchClass(courseID, classID, time);
+        return boom->AddCourse(courseID);
     }
     catch (Exception &e)
     {
@@ -146,7 +146,7 @@ StatusType GetIthWatchedClass(void *DS, int i, int *courseID, int *classID)
         {
             return INVALID_INPUT;
         }
-        // return boom->GetMostViewedClasses(numOfClasses, courses, classes);
+        return boom->GetIthWatchedClass(i, courseID, classID);
     }
     catch (Exception &e)
     {

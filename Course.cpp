@@ -29,6 +29,6 @@ bool Course::watchClass(int classId, int watchTime)
     {
         throw Exception("Invalid CourseId", INVALID_INPUT);
     }
-    classes[classId] = watchTime;
+    classes[classId] += watchTime;
     return true;
 }

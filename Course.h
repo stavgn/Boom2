@@ -9,9 +9,9 @@ namespace DS
     class Course
     {
         
-    Dynamic<int> classes;
 
     public:
+        Dynamic<int> classes;
         int id;
         Course(int id);
         ~Course() = default;
