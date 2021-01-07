@@ -2,3 +2,6 @@ build/*
 main.cpp
 .vscode/settings.json
 CMakeLists.txt
+tree_test.cpp
+tests/testswet2.zip
+CMakeLists.txt
