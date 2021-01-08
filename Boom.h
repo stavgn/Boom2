@@ -21,7 +21,6 @@ namespace DS
         ~Boom() = default;
         StatusType AddCourse(int courseID);
         StatusType AddClass(int courseID);
-        StatusType GetIthWatchedClass(int i, int *courseID, int *classID);
         StatusType RemoveCourse(int courseID);
         StatusType WatchClass(int courseID, int classID, int time);
         StatusType TimeViewed(int courseID, int classID, int *timeViewed);
