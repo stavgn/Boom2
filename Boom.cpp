@@ -47,10 +47,10 @@ StatusType Boom::WatchClass(int courseID, int classID, int time)
 {
     Course &c = courses[courseID];
     ClassData prev_record = ClassData(courseID, classID, int(c.getWatchTime(classID)));
-    ClassData *next_record_key = new ClassData(courseID, classID, int(c.getWatchTime(classID) + time));
+    ClassData next_record_key =  ClassData(courseID, classID, int(c.getWatchTime(classID) + time));
     c.watchClass(classID, time);
     classes.remove(prev_record);
-    classes.insert(*next_record_key, next_record_key);
+    classes.insert(next_record_key, nullptr);
     return SUCCESS;
 }
 
@@ -63,8 +63,8 @@ StatusType Boom::TimeViewed(int courseID, int classID, int *timeViewed)
 
 StatusType Boom::GetIthWatchedClass(int i, int *courseID, int *classID)
 {
-    tree_node<ClassData, ClassData> node = *classes.select_rank(i);
-    ClassData data = *node.data_ptr;
+    tree_node<ClassData, ClassData> *node = classes.select_rank(i);
+    ClassData data = node->key;
     *courseID = data[0];
     *classID = data[1];
 
