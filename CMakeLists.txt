@@ -3,7 +3,7 @@
 # The following is required by CMake
 # Set hw0 as the project name, C as the target language
 # A project can contain multiple build products
-project(wet_1)
+project(wet_2)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_COMPILER /usr/bin/g++ CACHE PATH "" FORCE)
@@ -19,5 +19,5 @@ set(CMAKE_CPP_FLAGS ${MTM_FLAGS_DEBUG})
 # Tell CMake to build an executable named mtm_tot, specifying the comprising file(s)
 
 # add_executable(wet_1 main_for_testing.cpp Boom.cpp ClassDataVector.cpp Exception.cpp library.cpp Vector.cpp)
-add_executable(wet_1 main1.cpp Boom.cpp ClassDataVector.cpp Exception.cpp library.cpp Vector.cpp)
+add_executable(wet_2 main1.cpp Boom.cpp ClassDataVector.cpp Exception.cpp library.cpp Vector.cpp Tree.cpp Hash.cpp Dynamic.cpp)
 #  add_executable(wet_1 main.cpp)

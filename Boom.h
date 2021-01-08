@@ -3,26 +3,29 @@
 
 #include "./Tree.h"
 #include "./Vector.h"
+#include "./Hash.h"
+#include "./ListNode.h"
+#include "./Course.h"
 #include "./ClassDataVector.h"
 #include "./Exception.h"
- 
+
 namespace DS
 {
     class Boom
     {
         Tree<ClassData, ClassData> classes;
-        Tree<int, Vector> courses;
+        Hash courses;
 
-    private:
-        /* data */
     public:
         Boom();
         ~Boom() = default;
-        StatusType AddCourse(int courseID, int numOfClasses);
+        StatusType AddCourse(int courseID);
+        StatusType AddClass(int courseID);
+        StatusType GetIthWatchedClass(int i, int *courseID, int *classID);
         StatusType RemoveCourse(int courseID);
         StatusType WatchClass(int courseID, int classID, int time);
         StatusType TimeViewed(int courseID, int classID, int *timeViewed);
-        StatusType GetMostViewedClasses(int numOfClasses, int *courses_array, int *classes_array);
+        StatusType GetIthWatchedClass(int i, int *courseID, int *classID);
     };
 
 } // namespace DS
