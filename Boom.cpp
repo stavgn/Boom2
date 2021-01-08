@@ -14,10 +14,17 @@ Boom::Boom() : classes(Tree<ClassData, ClassData>()), courses(Hash())
 StatusType Boom::AddCourse(int courseID)
 {
 
-    Course course = Course(courseID);
-    ListNode<Course> l = ListNode<Course>(courseID, course);
-    courses.insert(courseID, l);
+    Course* course = new Course(courseID);
+    ListNode<Course>* l(new ListNode<Course>(courseID, course));
+    // course->classes.array[0] = 0;
+    courses.insert(courseID, *l);
 
+    return SUCCESS;
+}
+StatusType Boom::AddClass(int courseID, int* classID)
+{
+    Dynamic<int> &c = courses[courseID].classes;
+    *classID = c.push();
     return SUCCESS;
 }
 
@@ -28,7 +35,7 @@ StatusType Boom::RemoveCourse(int courseID)
     {
         if (c[i] != 0)
         {
-            ClassData key = ClassData(courseID, i, c[i]);
+            ClassData key = ClassData(courseID, i, int(c[i]));
             classes.remove(key);
         }
     }
@@ -39,11 +46,12 @@ StatusType Boom::RemoveCourse(int courseID)
 StatusType Boom::WatchClass(int courseID, int classID, int time)
 {
     Course &c = courses[courseID];
-    ClassData prev_record = ClassData(courseID, classID, c.getWatchTime(classID));
-    ClassData *next_record_key = new ClassData(courseID, classID, c.getWatchTime(classID) + time);
+    ClassData prev_record = ClassData(courseID, classID, int(c.getWatchTime(classID)));
+    ClassData *next_record_key = new ClassData(courseID, classID, int(c.getWatchTime(classID) + time));
     c.watchClass(classID, time);
     classes.remove(prev_record);
     classes.insert(*next_record_key, next_record_key);
+    return SUCCESS;
 }
 
 StatusType Boom::TimeViewed(int courseID, int classID, int *timeViewed)

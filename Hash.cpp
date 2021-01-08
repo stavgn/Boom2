@@ -6,6 +6,18 @@ using namespace DS;
 Hash::Hash() : Dynamic()
 {
 }
+Hash::~Hash()
+{
+    for (int i = 0; i < size; i++)
+    {
+        ListNode<Course> *tmp_next;
+        for(ListNode<Course> *iter = array[i].right; iter != nullptr; iter=tmp_next)
+        {
+            tmp_next = iter->right;
+            delete iter;
+        }
+    }
+}
 
 void Hash::insert(int key, ListNode<Course> &data)
 {

@@ -1,6 +1,7 @@
 #ifndef DYNAMIC_H
 #define DYNAMIC_H
 
+#include <cassert>
 #include "./Exception.h"
  
 namespace DS
@@ -18,6 +19,7 @@ namespace DS
 
         Dynamic();
         ~Dynamic();
+        Dynamic(const Dynamic<DATA>& source);
         int push();
         DATA &operator[](int index);
         bool shouldResize();
@@ -29,11 +31,23 @@ namespace DS
     Dynamic<DATA>::Dynamic() : size(4), count(0)
     {
         array = new DATA [4]();
+        
     }
     template <class DATA>
     Dynamic<DATA>::~Dynamic()
     {
         delete[] array;
+    }
+    template <class DATA>
+    Dynamic<DATA>::Dynamic(const Dynamic<DATA>& source)
+    {
+        size = source.size;
+        count = source.count;
+        array = new DATA [size](); 
+        for(int i = 0; i < size; i++)
+        {
+            array[i] = source.array[i];
+        }
     }
     template <class DATA>
     int Dynamic<DATA>::push()
@@ -43,6 +57,7 @@ namespace DS
             enlarge();
         }
         count++;
+        
         return (count - 1);
     }
     template <class DATA>
@@ -52,6 +67,7 @@ namespace DS
         {
             throw Exception("Index out of range", INVALID_INPUT);
         }
+        
         return array[index];
     }
 
@@ -72,6 +88,8 @@ namespace DS
         }
         delete[] array;
         array = new_array;
+        
+
     }
     template <class DATA>
     void Dynamic<DATA>::shrink()

@@ -72,7 +72,7 @@ StatusType AddClass(void *DS, int courseID, int *classID)
         {
             return INVALID_INPUT;
         }
-        return boom->AddCourse(courseID);
+        return boom->AddClass(courseID, classID);
     }
     catch (Exception &e)
     {

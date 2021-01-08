@@ -455,7 +455,7 @@ namespace DS
         // notice: first place (rank = 1) is the max leaf
         if (rank <= 0)
         {
-            throw("Illegal rank", INVALID_INPUT);
+            throw Exception("Illegal rank", INVALID_INPUT);
         }
         if (root == nullptr)
         {
@@ -463,7 +463,7 @@ namespace DS
         }
         if (rank > root->rank)
         {
-            throw("There are less courses with views then rank", FAILURE);
+            throw Exception("There are less courses with views then rank", FAILURE);
         }
         if (is_leaf(root))
         {

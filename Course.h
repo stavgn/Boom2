@@ -15,6 +15,7 @@ namespace DS
         int id;
         Course(int id);
         ~Course() = default;
+        Course(const Course& source) = default;
         int appendNewClass();
         int getWatchTime(int classId);
         bool watchClass(int classId, int watchTime);

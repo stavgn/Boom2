@@ -18,6 +18,4 @@ set(MTM_FLAGS_RELEASE "${MTM_FLAGS_DEBUG} -DNDBUG")
 set(CMAKE_CPP_FLAGS ${MTM_FLAGS_DEBUG})
 # Tell CMake to build an executable named mtm_tot, specifying the comprising file(s)
 
-# add_executable(wet_1 main_for_testing.cpp Boom.cpp ClassDataVector.cpp Exception.cpp library.cpp Vector.cpp)
-add_executable(wet_2 main1.cpp Boom.cpp ClassDataVector.cpp Exception.cpp library.cpp Vector.cpp Tree.cpp Hash.cpp Dynamic.cpp)
-#  add_executable(wet_1 main.cpp)
+add_executable(wet_2 main2.cpp Boom.cpp ClassDataVector.cpp Exception.cpp library.cpp Vector.cpp  Hash.cpp Course.cpp )

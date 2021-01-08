@@ -4,15 +4,14 @@
 
 using namespace DS;
 
-Course::Course(int id)
+Course::Course(int id) : id(id), classes(Dynamic<int>())
 {
     if (id < 0)
     {
         throw Exception("Invalid CourseId", INVALID_INPUT);
     }
-    id = id;
-    classes = Dynamic<int>();
 }
+
 int Course::appendNewClass()
 {
     int count = classes.push();

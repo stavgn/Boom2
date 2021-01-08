@@ -14,7 +14,7 @@ namespace DS
         ListNode *right = nullptr;
         DATA *data = nullptr;
         ListNode(){};
-        ListNode(int key, DATA &data, ListNode &right = nullptr);
+        ListNode(int key, DATA* data);
         ~ListNode()
         {
             delete data;
@@ -23,8 +23,10 @@ namespace DS
     };
 
     template <class DATA>
-    ListNode<DATA>::ListNode(int key, DATA &data, ListNode &right) : key(key), data(&data), right(&right)
+    ListNode<DATA>::ListNode(int key, DATA* data) 
     {
+        this->key = key;
+        this->data = data;
     }
 
     template <class DATA>
