@@ -122,5 +122,4 @@ void Hash::change_size(double factor)
     delete[] array;
     array = new_array;
     size = new_size;
-    assert((count >= (size / 2)) && (count < size));
 }
