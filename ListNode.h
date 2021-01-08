@@ -13,21 +13,22 @@ namespace DS
         int key = -1;
         ListNode *right = nullptr;
         DATA *data = nullptr;
-        ListNode() {};
-        ListNode(int key, DATA& data, ListNode& right);
+        ListNode(){};
+        ListNode(int key, DATA &data, ListNode &right = nullptr);
         ~ListNode()
         {
             delete data;
         };
-        void link(ListNode& list);
+        void link(ListNode &list);
     };
 
     template <class DATA>
-    ListNode<DATA>::ListNode(int key,DATA& data, ListNode& right) : key(key),data(&data),right(&right)
-    {}
+    ListNode<DATA>::ListNode(int key, DATA &data, ListNode &right) : key(key), data(&data), right(&right)
+    {
+    }
 
     template <class DATA>
-    void ListNode<DATA>:: link(ListNode& list)
+    void ListNode<DATA>::link(ListNode &list)
     {
         right = &list;
     }

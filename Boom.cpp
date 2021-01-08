@@ -14,25 +14,15 @@ Boom::Boom() : classes(Tree<ClassData, ClassData>()), courses(Hash())
 StatusType Boom::AddCourse(int courseID)
 {
 
-    if (courses[courseID] == nullptr)
-    {
-        Course course = Course(courseID);
-        courses.insert(courseID, &LinkNode(course));
-    }
-    else
-    {
-        throw Exception("invalid courseId", FAILURE);
-    }
+    Course course = Course(courseID);
+    ListNode<Course> l = ListNode<Course>(courseID, course);
+    courses.insert(courseID, l);
 
     return SUCCESS;
 }
 
 StatusType Boom::RemoveCourse(int courseID)
 {
-    if (courses[courseID] == nullptr)
-    {
-        throw Exception("Course was not found", FAILURE);
-    }
     Dynamic<int> &c = courses[courseID].classes;
     for (int i = 0; i < c.size; i++)
     {
@@ -48,35 +38,27 @@ StatusType Boom::RemoveCourse(int courseID)
 
 StatusType Boom::WatchClass(int courseID, int classID, int time)
 {
-    if (courses[courseID] != nullptr)
-    {
-        Course &c = courses[courseID];
-        ClassData prev_record = ClassData(courseID, classID, c.getWatchTime(classID));
-        ClassData *next_record_key = new ClassData(courseID, classID, c.getWatchTime(classID) + time);
-        c.watchClass(classID, time);
-        classes.remove(prev_record);
-        classes.insert(*next_record_key, next_record_key);
-    }
-    else
-    {
-        throw Exception("course wasn't found", FAILURE);
-    }
-
-    return SUCCESS;
+    Course &c = courses[courseID];
+    ClassData prev_record = ClassData(courseID, classID, c.getWatchTime(classID));
+    ClassData *next_record_key = new ClassData(courseID, classID, c.getWatchTime(classID) + time);
+    c.watchClass(classID, time);
+    classes.remove(prev_record);
+    classes.insert(*next_record_key, next_record_key);
 }
 
 StatusType Boom::TimeViewed(int courseID, int classID, int *timeViewed)
 {
-    if (courses[courseID] != nullptr)
-    {
-        throw Exception("course was'nt found", FAILURE);
-    }
     Course &c = courses[courseID];
-    *timeViewed = c.getWatchTime(classID); //Todo MAke sure INVALID_INPUT Ex
+    *timeViewed = c.getWatchTime(classID);
     return SUCCESS;
 }
 
 StatusType Boom::GetIthWatchedClass(int i, int *courseID, int *classID)
 {
+    tree_node<ClassData, ClassData> node = *classes.select_rank(i);
+    ClassData data = *node.data_ptr;
+    *courseID = data[0];
+    *classID = data[1];
+
     return SUCCESS;
 }
