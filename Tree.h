@@ -485,6 +485,7 @@ namespace DS
             rank -= root->children_array[place_in_node]->rank;
         }
         assert(0); //should never get here
+        return nullptr;
     }
 
 } // namespace DS

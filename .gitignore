@@ -7,3 +7,4 @@ tests/testswet2.zip
 CMakeLists.txt
 .vscode/launch.json
 tests/output
+CMakeLists.txt

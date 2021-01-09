@@ -4,7 +4,7 @@
 
 using namespace DS;
 
-Course::Course(int id) : id(id), classes(Dynamic<int>())
+Course::Course(int id) :  classes(Dynamic<int>()), id(id)
 {
     if (id < 0)
     {
