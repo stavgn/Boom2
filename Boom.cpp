@@ -16,7 +16,6 @@ StatusType Boom::AddCourse(int courseID)
 
     Course* course = new Course(courseID);
     ListNode<Course>* l(new ListNode<Course>(courseID, course));
-    // course->classes.array[0] = 0;
     courses.insert(courseID, *l);
 
     return SUCCESS;
@@ -31,7 +30,7 @@ StatusType Boom::AddClass(int courseID, int* classID)
 StatusType Boom::RemoveCourse(int courseID)
 {
     Dynamic<int> &c = courses[courseID].classes;
-    for (int i = 0; i < c.size; i++)
+    for (int i = 0; i < c.count; i++)
     {
         if (c[i] != 0)
         {

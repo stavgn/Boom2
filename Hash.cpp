@@ -23,6 +23,7 @@ void Hash::insert(int key, ListNode<Course> &data)
 {
     if (key < 0)
     {
+        delete &data;
         throw Exception("Index out of range", INVALID_INPUT);
     }
     if (shouldResize())
@@ -37,6 +38,7 @@ void Hash::insert(int key, ListNode<Course> &data)
         {
             if (iter->key == key)
             {
+                delete &data;
                 throw Exception("Course already exists", FAILURE);
             }
         }
@@ -53,7 +55,7 @@ void Hash::remove(int key)
         throw Exception("Index out of range", INVALID_INPUT);
     }
 
-    if (array[key % size].right != nullptr)
+    if (array[key % size].right == nullptr)
     {
         return;
     }

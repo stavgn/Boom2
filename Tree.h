@@ -459,11 +459,15 @@ namespace DS
         }
         if (root == nullptr)
         {
+            if(root_ptr == nullptr)
+            {
+                throw Exception("Empty tree", FAILURE);
+            }
             return select_rank(rank, root_ptr);
         }
         if (rank > root->rank)
         {
-            throw Exception("There are less courses with views then rank", FAILURE);
+            throw Exception("There are less class with views then rank", FAILURE);
         }
         if (is_leaf(root))
         {
