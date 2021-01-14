@@ -2,10 +2,9 @@
 #ifndef EXECPTION_H
 #define EXECPTION_H
 
-
 #include "library2.h"
 
-
+#include <exception>
 
 namespace DS
 {
@@ -14,8 +13,9 @@ namespace DS
     {
 
     public:
+        
         StatusType type_data;
-        Exception(StatusType type);
+        Exception( StatusType type);
         ~Exception() = default;
         StatusType type();
     };
